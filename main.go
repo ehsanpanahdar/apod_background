@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 
 	"github.com/spf13/viper"
 )
@@ -54,6 +55,11 @@ func main() {
 	if( err != nil ) {
 		log.Fatal(err)
 	}
+
+	err = Set_background()
+	if( err != nil ) {
+		log.Fatal(err)
+	}
 }
 
 func Get_config() (Conf , error) {
@@ -88,6 +94,23 @@ func Download_picture( client *http.Client , data *API_data ) error {
 	}
 
 	_ , err = io.Copy( file , buffer.Body )
+	if( err != nil ) {
+		return err
+	}
+
+	return nil
+}
+
+func Set_background() error {
+	dir , err := os.Getwd()
+	if( err != nil ) {
+		return err
+	}
+
+	file_name := fmt.Sprintf( "\"file://%s/apod.jpg\"" , dir )
+	fmt.Print(file_name)
+	cmd := exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", file_name )
+	err = cmd.Run()
 	if( err != nil ) {
 		return err
 	}
