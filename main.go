@@ -13,7 +13,7 @@ import (
 )
 
 type API_data struct {
-	URL string `json:"url"`
+	URL string `json:"hdurl"`
 }
 
 type Conf struct {
@@ -108,7 +108,6 @@ func Set_background() error {
 	}
 
 	file_name := fmt.Sprintf( "\"file://%s/apod.jpg\"" , dir )
-	fmt.Print(file_name)
 	cmd := exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", file_name )
 	err = cmd.Run()
 	if( err != nil ) {
