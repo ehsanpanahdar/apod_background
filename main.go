@@ -35,14 +35,14 @@ func main() {
 	} 
 	defer resp.Body.Close()
 
-	ansewr , err := io.ReadAll(resp.Body)
-	if( err != nil ) {
-		log.Fatal(err)
-	}
-
 	if( resp.StatusCode != 200 ) {
 		fmt.Printf( "status code:%d\n%s" , resp.StatusCode , ansewr)
 		os.Exit(1)
+	}
+
+	ansewr , err := io.ReadAll(resp.Body)
+	if( err != nil ) {
+		log.Fatal(err)
 	}
 
 	data := API_data{}
